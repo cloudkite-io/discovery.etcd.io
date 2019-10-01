@@ -41,4 +41,4 @@ Apply the changes required to reach the desired state of the configuration:
 $ terraform apply -var-file=environments/$ENV/config.tfvars
 ```
 
-Lear more about [terraform](https://www.terraform.io/docs/index.html).
+Learn more about [terraform](https://www.terraform.io/docs/index.html).
