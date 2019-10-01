@@ -1,0 +1,12 @@
+.idea
+*.pyc
+
+.git-crypt.key
+
+# Terraform
+**/.terraform/*
+
+*.tfstate
+*.tfstate.*
+
+.DS_Store
