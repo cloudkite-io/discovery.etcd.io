@@ -1,0 +1,7 @@
+data "terraform_remote_state" "prod" {
+  backend = "gcs"
+  config = {
+    bucket = "discovery-etcd-io-prod-infrastructure"
+    prefix  = "terraform/terraform.state"
+  }
+}
