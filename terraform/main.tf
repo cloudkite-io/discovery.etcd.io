@@ -1,5 +1,5 @@
 provider "google" {
-  version = "~> 2.10.0"
+  version = "~> 2.16.0"
   project     = "${var.gcp["project"]}"
   region      = "${var.gcp["region"]}"
 }

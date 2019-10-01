@@ -24,7 +24,9 @@ The available commands for execution are listed below.
 
 Common commands:
     apply              Builds or changes infrastructure
-    console            Interactive console for Terraform interpolations
+    plan               Generate and show an execution plan
+    providers          Prints a tree of the providers used in the configuration
+    refresh            Update local state file against real resources
 # ...
 ```
 ## Applying changes with terraform
