@@ -1,5 +1,7 @@
 environment = "prod"
 
+reference_dev_data = true
+
 gcp = {
   project = "etcd-io"
   region = "us-central1"
