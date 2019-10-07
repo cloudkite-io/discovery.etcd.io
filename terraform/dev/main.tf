@@ -17,7 +17,7 @@ terraform {
 }
 
 module "gke" {
-  source = "git::git@github.com:cloudkite-io/terraform-modules.git//modules/gke"
+  source = "git::git@github.com:cloudkite-io/terraform-modules.git//modules/gke?ref=v0.0.1"
   environment = var.environment
   gcp = var.gcp
   gke = var.gke
@@ -30,7 +30,7 @@ module "gke" {
 }
 
 module "vpc" {
-  source = "git::git@github.com:cloudkite-io/terraform-modules.git//modules/network/vpc"
+  source = "git::git@github.com:cloudkite-io/terraform-modules.git//modules/network/vpc?ref=v0.0.1"
   environment = var.environment
   network-prefix = var.gcp["network_prefix"]
   project = var.gcp["project"]
@@ -39,7 +39,7 @@ module "vpc" {
 }
 
 module "gke_service_account" {
-  source = "git::git@github.com:cloudkite-io/terraform-modules.git//modules/gke-service-account"
+  source = "git::git@github.com:cloudkite-io/terraform-modules.git//modules/gke-service-account?ref=v0.0.1"
   name = "${module.gke.name}-sa"
   project = var.gcp["project"]
 }
