@@ -16,12 +16,6 @@ terraform {
   }
 }
 
-module "vpc" {
-  source = "../modules/networking/vpc"
-  environment = var.environment
-  gcp = var.gcp
-}
-
 module "gke" {
   source = "git::git@github.com:cloudkite-io/terraform-modules.git//modules/gke"
   environment = var.environment
