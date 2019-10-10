@@ -23,10 +23,11 @@ module "gke" {
   gke = var.gke
   gke_nodepools = var.gke_nodepools
   gke_pods_secondary_range_name = module.vpc.gke_subnetwork_secondary_range_name_services
-  gke_service_account = module.gke_service_account.email
   gke_services_secondary_range_name = module.vpc.gke_subnetwork_secondary_range_name_pods
   network = module.vpc.network
   subnetwork = module.vpc.gke_subnetwork
+  enable_network_policy = true
+  gke_master_authorized_networks = var.gke_master_authorized_networks
 }
 
 module "vpc" {
@@ -38,8 +39,8 @@ module "vpc" {
   master_ipv4_cidr_block = var.gke["master_ipv4_cidr_block"]
 }
 
-module "gke_service_account" {
-  source = "git::git@github.com:cloudkite-io/terraform-modules.git//modules/gke-service-account?ref=v0.0.1"
-  name = "${module.gke.name}-sa"
+module "velero_service_account" {
+  source = "git::git@github.com:cloudkite-io/terraform-modules.git//modules/velero-service-account?ref=v0.0.1"
+  name = "${module.gke.name}-velero-sa"
   project = var.gcp["project"]
 }
