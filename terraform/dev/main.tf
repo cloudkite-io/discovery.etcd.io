@@ -17,7 +17,7 @@ terraform {
 }
 
 module "gke" {
-  source = "git::git@github.com:cloudkite-io/terraform-modules.git//modules/gke?ref=v0.0.1"
+  source = "git::git@github.com:cloudkite-io/terraform-modules.git//modules/gcp/gke?ref=v0.0.1"
   environment = var.environment
   gcp = var.gcp
   gke = var.gke
@@ -31,7 +31,7 @@ module "gke" {
 }
 
 module "vpc" {
-  source = "git::git@github.com:cloudkite-io/terraform-modules.git//modules/network/vpc?ref=v0.0.1"
+  source = "git::git@github.com:cloudkite-io/terraform-modules.git//modules/gcp/vpc?ref=v0.0.1"
   environment = var.environment
   network-prefix = var.gcp["network_prefix"]
   project = var.gcp["project"]
@@ -39,8 +39,14 @@ module "vpc" {
   master_ipv4_cidr_block = var.gke["master_ipv4_cidr_block"]
 }
 
-module "velero_service_account" {
-  source = "git::git@github.com:cloudkite-io/terraform-modules.git//modules/velero-service-account?ref=v0.0.1"
+module "velero" {
+  source = "git::git@github.com:cloudkite-io/terraform-modules.git//modules/gcp/velero?ref=v0.0.1"
   name = "${module.gke.name}-velero-sa"
   project = var.gcp["project"]
+  backups_bucket_name = "${var.gcp["project"]}-backups"
+  backups_bucket_location = "US"
+}
+
+output "velero-sa-keyfile" {
+  value = module.velero.velero-sa-keyfile
 }
