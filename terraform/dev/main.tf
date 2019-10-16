@@ -26,7 +26,6 @@ module "gke" {
   gke_services_secondary_range_name = module.vpc.gke_subnetwork_secondary_range_name_pods
   network = module.vpc.network
   subnetwork = module.vpc.gke_subnetwork
-  enable_network_policy = true
   gke_master_authorized_networks = var.gke_master_authorized_networks
 }
 
@@ -37,16 +36,4 @@ module "vpc" {
   project = var.gcp["project"]
   region = var.gcp["region"]
   master_ipv4_cidr_block = var.gke["master_ipv4_cidr_block"]
-}
-
-module "velero" {
-  source = "git::git@github.com:cloudkite-io/terraform-modules.git//modules/gcp/velero?ref=v0.0.1"
-  name = "${module.gke.name}-velero-sa"
-  project = var.gcp["project"]
-  backups_bucket_name = "${var.gcp["project"]}-backups"
-  backups_bucket_location = "US"
-}
-
-output "velero-sa-keyfile" {
-  value = module.velero.velero-sa-keyfile
 }
