@@ -1,0 +1,15 @@
+{{ $global := . -}}
+{{ range $index, $cert := .Values.ingress.tls -}}
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: {{ $cert.secretName }}
+spec:
+  secretName: {{ $cert.secretName }}
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+  dnsNames:
+    {{- toYaml $cert.hosts | nindent 4 }}
+---
+{{ end }}
