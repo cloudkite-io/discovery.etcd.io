@@ -27,6 +27,16 @@ prometheusOperator:
   admissionWebhooks:
     enabled: false
 
+prometheus:
+  prometheusSpec:
+    storageSpec: 
+      volumeClaimTemplate:
+        accessModes: 
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 50Gi
+
 grafana:
   enabled: true
   ingress:
