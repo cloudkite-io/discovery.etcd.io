@@ -6,6 +6,7 @@ replicaCount: 3
 
 image:
   repository: quay.io/etcd/discoveryserver:latest
+  tag: latest
   pullPolicy: Always
 
 imagePullSecrets: []
@@ -46,8 +47,10 @@ ingress:
     kubernetes.io/tls-acme: "true"
   hosts:
     - host: dev.discovery.etcd.io
+      paths:
+      - /
   tls:
-    - secretName: prometheus-operator-tls
+    - secretName: dev-discoveryserver-tls
       hosts:
         - dev.discovery.etcd.io
         - www.dev.discovery.etcd.io

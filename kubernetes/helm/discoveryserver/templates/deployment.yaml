@@ -10,8 +10,10 @@ spec:
     matchLabels:
       {{- include "discoveryserver.selectorLabels" . | nindent 6 }}
   minReadySeconds: {{ .Values.minReadySeconds }}
+  {{- with .Values.strategy }}
   strategy:
-    {{ toYaml .Values.strategy | indent 4 }}
+    {{- . | toYaml | nindent 4 }}
+  {{- end }}
   template:
     metadata:
       labels:
@@ -31,7 +33,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            {{ toYaml .Values.environment | nindent 12 }}
+            {{- toYaml .Values.env | nindent 12 }}
           ports:
             - name: http
               containerPort: 8087
