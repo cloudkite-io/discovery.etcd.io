@@ -1,34 +1,37 @@
-alertmanager:
-  alertmanagerSpec:
-    storage:
-     volumeClaimTemplate:
-       spec:
-         storageClassName: standard
-         accessModes: ["ReadWriteOnce"]
-         resources:
-           requests:
-             storage: 20Gi
-
-## Using default values from https://github.com/helm/charts/blob/master/stable/grafana/values.yaml
-##
-grafana:
-  persistence:
-    type: pvc
-    enabled: true
-    storageClassName: standard
-    accessModes:
-      - ReadWriteOnce
-    size: 20Gi
-
-## Deploy a Prometheus instance
-##
-prometheus:
-  prometheusSpec:
-    storageSpec:
-      volumeClaimTemplate:
-        spec:
-          storageClassName: standard
-          accessModes: ["ReadWriteOnce"]
-          resources:
-            requests:
-              storage: 20Gi
+prometheus-operator:
+  alertmanager:
+    alertmanagerSpec:
+      storage:
+       volumeClaimTemplate:
+         spec:
+           storageClassName: standard
+           accessModes: ["ReadWriteOnce"]
+           resources:
+             requests:
+               storage: 20Gi
+  
+  ## Using default values from https://github.com/helm/charts/blob/master/stable/grafana/values.yaml
+  ##
+  grafana:
+    persistence:
+      type: pvc
+      enabled: true
+      storageClassName: standard
+      accessModes:
+        - ReadWriteOnce
+      size: 20Gi
+  
+  ## Deploy a Prometheus instance
+  ##
+  prometheus:
+    prometheusSpec:
+      serviceMonitorNamespaceSelector: "*"
+      # serviceMonitorSelector
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: standard
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 20Gi

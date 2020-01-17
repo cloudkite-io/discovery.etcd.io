@@ -1,0 +1,62 @@
+{{ $global := . -}}
+{{- $fullName := include "prometheus-operator.fullname" . -}}
+{{- $chart := include "prometheus-operator.chart" . -}}
+{{ range $index, $cert := .Values.serviceMonitor -}}
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: {{ $cert.secretName }}
+  labels:
+    app: {{ $fullName }}
+    chart: {{ $chart }}
+    release: {{ $global.Release.Name }}
+    heritage: {{ $global.Release.Service }}
+spec:
+  secretName: {{ $cert.secretName }}
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  renewBefore: 360h0m0s
+  dnsNames:
+    {{- toYaml $cert.hosts | nindent 4 }}
+
+---
+{{ end }}
+
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ $svcMon.name }}
+  namespace: prometheus-operator
+  labels:
+    release: prometheus-operator
+spec:
+  endpoints:
+  - interval: 15s
+    port: {{ $svcMon.port }}
+    path: {{ $svcMon.path }}
+  namespaceSelector:
+    matchNames:
+    - {{ $svcMon.namespace }}
+  selector:
+    matchLabels:
+      app: "nginx-ingress"
+
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: nginx-ingress-controller
+  namespace: prometheus
+  labels:
+    release: prometheus-operator
+spec:
+  endpoints:
+  - interval: 15s
+    port: metrics
+    path: /metrics
+  namespaceSelector:
+    matchNames:
+    - "nginx-ingress"
+  selector:
+    matchLabels:
+      app: "nginx-ingress"

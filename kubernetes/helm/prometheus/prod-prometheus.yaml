@@ -1,0 +1,67 @@
+apiVersion: v1
+items:
+- apiVersion: monitoring.coreos.com/v1
+  kind: Prometheus
+  metadata:
+    creationTimestamp: "2019-12-16T18:19:25Z"
+    generation: 1
+    labels:
+      app: prometheus-operator-prometheus
+      chart: prometheus-operator-8.3.3
+      heritage: Helm
+      release: prometheus-operator
+    name: prometheus-operator-prometheus
+    namespace: prometheus
+    resourceVersion: "1064548"
+    selfLink: /apis/monitoring.coreos.com/v1/namespaces/prometheus/prometheuses/prometheus-operator-prometheus
+    uid: 970c886a-2030-11ea-8813-4201ac1f0004
+  spec:
+    alerting:
+      alertmanagers:
+      - name: prometheus-operator-alertmanager
+        namespace: prometheus
+        pathPrefix: /
+        port: web
+    baseImage: quay.io/prometheus/prometheus
+    enableAdminAPI: false
+    externalUrl: http://prometheus-operator-prometheus.prometheus:9090
+    listenLocal: false
+    logFormat: logfmt
+    logLevel: info
+    paused: false
+    podMonitorNamespaceSelector: {}
+    podMonitorSelector:
+      matchLabels:
+        release: prometheus-operator
+    portName: web
+    replicas: 1
+    retention: 10d
+    routePrefix: /
+    ruleNamespaceSelector: {}
+    ruleSelector:
+      matchLabels:
+        app: prometheus-operator
+        release: prometheus-operator
+    securityContext:
+      fsGroup: 2000
+      runAsNonRoot: true
+      runAsUser: 1000
+    serviceAccountName: prometheus-operator-prometheus
+    serviceMonitorNamespaceSelector: {}
+    serviceMonitorSelector:
+      matchLabels:
+        release: prometheus-operator
+    storage:
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 20Gi
+          storageClassName: standard
+    version: v2.13.1
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
