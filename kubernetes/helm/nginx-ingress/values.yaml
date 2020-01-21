@@ -1,0 +1,8 @@
+controller:
+  autoscaling:
+    enabled: true
+  metrics:
+    enabled: true
+    service:
+      labels:
+        app: nginx-ingress-metrics
